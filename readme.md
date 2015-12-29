@@ -1,5 +1,12 @@
-Chrome extension starting bundle
+Javascript TV Show calendar
 ================================
 
-A basic starting point for all chrome extensions. Not all the files are needed for every extension, but the core basics are covered.
-# tv-calendar-app-ajax
+Basic app with ajax request to TV Maze API, that shows a calendar with all shows.
+
+Far from end this app is made for keep a track every day your fav things on tv.
+
+ToDo:
+  - user management.
+  - filter to reduce the abundance of data.
+  - cache or something tvmaze api, too slow
+  - more...

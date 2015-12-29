@@ -1,0 +1,14 @@
+/*  Read about this page here: https://developer.chrome.com/extensions/content_scripts.html */
+.tvshow-app-chrome-extension__body {
+    /*width: 175px; */
+    height: 100%;
+}
+.tvshow-app-chrome-extension__h1 {
+  color: darkred;
+}
+#tvshow-app-chrome-extension__list {
+  list-style: none;
+}
+ul#tvshow-app-chrome-extension__list li {
+    margin-bottom: 20px;
+}

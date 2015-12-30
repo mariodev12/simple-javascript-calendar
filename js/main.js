@@ -1,3 +1,5 @@
+'use strict';
+
 var showBrowser = {
 
     todayShow: undefined,
@@ -8,6 +10,7 @@ var showBrowser = {
     networks: ["FOX","TNT","CBS","Showtime","ABC","Discovery","HBO","AMC","CNN","The CW","NBC","USA","BBC"],
     time: ["06:00","20:00","20:30","21:00","21:30","22:00"],
     events: [],
+    eventsParsed: [],
 
     requestShows: function(){
         return $.ajax({
@@ -15,12 +18,33 @@ var showBrowser = {
                 type: "GET",
                 url: this.tvmazeAPi,
                 success: this.getTvShowFromMaze.bind(this),
-                error: this.loadErrors
+                error: this.loadErrors,
+                beforeSend: function(){
+                  $('#loading').show();
+                },
+                complete: function(){
+                  $('#loading').hide();
+                }
         });
     },
     loadErrors : function(x,t,m) {
 		    console.log("Error while loading",x,t,m);
 	  },
+    formatEvents: function(){
+      var events = this.events;
+      for(var i = 0; i < this.events.length; i++){
+        for(var j = 0; j < this.time.length; j++){
+          for(var t = 0; t < this.networks.length; t++){
+            if(events[i].time === this.time[j]){
+              if(events[i].network === this.networks[t]){
+                this.eventsParsed.push({title: responseJSON[i]._embedded.show.name,
+                  start: responseJSON[i].airdate});
+              };
+            };
+          };
+        };
+      };
+    },
     getTvShowFromMaze: function(responseJSON){
       for (var i = 0; i < responseJSON.length; i++) {
           /*var show = new Show(responseJSON[i].show.name, responseJSON[i].name,
@@ -28,7 +52,9 @@ var showBrowser = {
           this.listShows.push(show);*/
           //    for (var i = 0; i < this.time.length; i++) {
           //      if (responseJSON[i].airtime == this.time[i]) {
-                    this.events.push({title: responseJSON[i]._embedded.show.name, start: responseJSON[i].airdate});
+                    this.events.push({title: responseJSON[i]._embedded.show.name,
+                      start: responseJSON[i].airdate,
+                      time: responseJSON[i]._embedded.show.schedule.time});
           //        }
           //      }
       };
@@ -75,11 +101,12 @@ var showBrowser = {
         //this.selectFromOption();
         //this.populateSelectNetworks();
         this.fullCalendarTv();
+        this.formatEvents();
     },
     start: function(){
       $.when(this.requestShows()).done(function(a1){
         showBrowser.fillTab();
-        console.log(JSON.stringify(showBrowser.events));
+        console.log(JSON.stringify(showBrowser.eventsParsed));
       });
     }
 };

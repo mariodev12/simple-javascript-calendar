@@ -88,7 +88,6 @@ var showBrowser = {
     start: function(){
       $.when(this.requestShows()).done(function(a1){
         showBrowser.fillTab();
-        console.log(JSON.stringify(showBrowser.events));
       });
     }
 };

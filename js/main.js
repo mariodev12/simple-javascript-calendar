@@ -7,8 +7,6 @@ var showBrowser = {
     tvmazeAPi: 'http://api.tvmaze.com/schedule/full',
     listShows: [],
     favShows: [],
-    networks: ["FOX","TNT","CBS","Showtime","ABC","Discovery","HBO","AMC","CNN","The CW","NBC","USA","BBC"],
-    time: ["06:00","20:00","20:30","21:00","21:30","22:00"],
     events: [],
 
     requestShows: function(){
@@ -30,15 +28,19 @@ var showBrowser = {
 		    console.log("Error while loading",x,t,m);
 	  },
     getTvShowFromMaze: function(responseJSON){
+      var data = JSON.stringify(responseJSON);
+      /*var show = new Show(responseJSON[i].show.name, responseJSON[i].name,
+        responseJSON[i].show.schedule.time, responseJSON[i].show.network.name);
+      this.listShows.push(show);*/
+      var networks = ["Teen Wolf","TNT","CBS","Showtime","ABC","Discovery","HBO","AMC","CNN","The CW","NBC","USA","BBC"];
+      var time = ["06:00","20:00","20:30","21:00","21:30","22:00"];
+
       for (var i = 0; i < responseJSON.length; i++) {
-          /*var show = new Show(responseJSON[i].show.name, responseJSON[i].name,
-            responseJSON[i].show.schedule.time, responseJSON[i].show.network.name);
-          this.listShows.push(show);*/
-          //    for (var i = 0; i < this.time.length; i++) {
-          //      if (responseJSON[i].airtime == this.time[i]) {
-                    this.events.push({title: responseJSON[i]._embedded.show.name, start: responseJSON[i].airdate});
-          //        }
-          //      }
+        for (var j = 0; j < networks.length; j++) {
+            if (responseJSON[i]._embedded.show.name === networks[j] ) {
+              this.events.push({title: responseJSON[i]._embedded.show.name, start: responseJSON[i].airdate});
+            }
+          }
       };
     },
     populateSelectNetworks: function(){
@@ -83,7 +85,7 @@ var showBrowser = {
         //this.selectFromOption();
         //this.populateSelectNetworks();
         this.fullCalendarTv();
-        this.formatEvents();
+        //this.formatEvents();
     },
     start: function(){
       $.when(this.requestShows()).done(function(a1){

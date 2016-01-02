@@ -5,10 +5,24 @@ var showBrowser = {
     todayShow: undefined,
     currentNetwork: undefined,
     tvmazeAPi: 'http://api.tvmaze.com/schedule/full',
+    tvMazeApiSearch: 'http://api.tvmaze.com/search/shows?q=girls',
     listShows: [],
     favShows: [],
     events: [],
 
+    requestSearchShows: function(){
+      return $.ajax({
+              dataType: "json",
+              type: "GET",
+              url: this.tvMazeApiSearch,
+              success: this.getSearchTvShows.bind(this),
+              error: this.loadErrors(),
+
+      });
+    },
+    getSearchTvShows: function(responseJSON){
+      console.log(responseJSON);
+    },
     requestShows: function(){
         return $.ajax({
                 dataType: "json",
@@ -85,10 +99,11 @@ var showBrowser = {
         //this.selectFromOption();
         //this.populateSelectNetworks();
         this.fullCalendarTv();
+        //this.searchForFav();
         //this.formatEvents();
     },
     start: function(){
-      $.when(this.requestShows()).done(function(a1){
+      $.when(this.requestShows(), this.requestSearchShows()).done(function(a1,a2){
         showBrowser.fillTab();
       });
     }

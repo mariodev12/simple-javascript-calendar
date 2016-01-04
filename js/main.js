@@ -1,9 +1,6 @@
 'use strict';
 
 var showBrowser = {
-
-    todayShow: undefined,
-    currentNetwork: undefined,
     tvmazeAPi: 'http://api.tvmaze.com/schedule/full',
     tvMazeApiSearch: 'http://api.tvmaze.com/search/shows?q=',
     listShows: [],
@@ -11,33 +8,36 @@ var showBrowser = {
     events: [],
 
     requestSearchShows: function(){
+      var that = this;
         $('#search-box').keyup(function(){
         return $.ajax({
           dataType: "json",
           type: "GET",
           url: 'http://api.tvmaze.com/search/shows?q='+ $(this).val(),
-
-
-          success: function(data){
-            var link = [];
-            var searchShows = [];
-            for (var i = 0; i < data.length; i++) {
-              searchShows.push({name: data[i].show.name, id: data[i].show.id});
-            }
-            for (var i = 0; i < searchShows.length; i++) {
-              $('<a>',{
-                  text: searchShows[i].name,
-                  title: searchShows[i].name,
-                  href: '#'+searchShows[i].id,
-              }).appendTo('#suggesstion-box');
-              //$('a').attr('href','#'+searchShows[i].id).text(searchShows[i].name);
-              //console.log(searchShows[i].name + ' ' + searchShows[i].id);
-            };
-            //$("#suggesstion-box").text(link);
-            //console.log(searchShows);
-          },
+          success: that.multisearchShows.bind(this),
         });
       })
+    },
+    multisearchShows: function(data){
+        var link = [];
+        var searchShows = [];
+        for (var i = 0; i < data.length; i++) {
+          searchShows.push({name: data[i].show.name, id: data[i].show.id});
+        }
+        $('#suggesstion-box').empty();
+        for (var i = 0; i < searchShows.length; i++) {
+          $('<a>',{
+              id: "result",
+              text: searchShows[i].name,
+              title: searchShows[i].name,
+              href: '#'+searchShows[i].id,
+              click: function(){
+                var data = $(this).attr('href');
+                showBrowser.favShows.push(data);
+              },
+          }).appendTo('#suggesstion-box');
+        };
+        console.log(searchShows);
     },
     requestShows: function(){
         return $.ajax({
@@ -105,6 +105,7 @@ var showBrowser = {
 
     },
     fillTab: function(){
+
         $('<ul></ul>');
 
         for (var i = 0; i < this.listShows.length; i++) {
@@ -118,12 +119,12 @@ var showBrowser = {
         //this.searchForFav();
         //this.formatEvents();
     },
-    start: function(){
+    init: function(){
       $.when(this.requestShows(), this.requestSearchShows()).done(function(a1,a2){
         showBrowser.fillTab();
       });
     }
 };
 document.addEventListener('DOMContentLoaded', function () {
-  showBrowser.start();
+  showBrowser.init();
 });

@@ -35,7 +35,7 @@ var showBrowser = {
                 var data = $(this).attr('href');
                 showBrowser.favShows.push(data);
               },
-          }).appendTo('#suggesstion-box');
+          }).wrap('<li>').parent().appendTo('#suggesstion-box');
         };
         console.log(searchShows);
     },

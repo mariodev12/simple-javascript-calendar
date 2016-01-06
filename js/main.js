@@ -19,6 +19,7 @@ var showBrowser = {
       })
     },
     multisearchShows: function(data){
+        var that = this;
         var link = [];
         var searchShows = [];
         for (var i = 0; i < data.length; i++) {
@@ -26,18 +27,33 @@ var showBrowser = {
         }
         $('#suggesstion-box').empty();
         for (var i = 0; i < searchShows.length; i++) {
-          $('<a>',{
+          /*$('<a>',{
               id: "result",
               text: searchShows[i].name,
               title: searchShows[i].name,
               href: '#'+searchShows[i].id,
               click: function(){
-                var data = $(this).attr('href');
-                showBrowser.favShows.push(data);
+                showBrowser.favShows.push($(this).attr('href'));
               },
-          }).wrap('<li>').parent().appendTo('#suggesstion-box');
+          }).wrap('<li><input type="checkbox" value="'+searchShows[i].id+'"/>').parent().appendTo('#suggesstion-box');
+          */
+          $('<input class="searchResults" type="checkbox" value="'+searchShows[i].id+'"/>' + '<label>'+searchShows[i].name+'</label>')
+          .wrap('<li>').parent().appendTo('#suggesstion-box');
         };
         console.log(searchShows);
+    },
+    addToFav: function(){
+        this.favShows.push($('.searchResults:checked').val());
+        console.log($('.searchResults:checked').val());
+    },
+    saveAll: function(){
+        var favStrings = '', that = this;
+        try {
+          favStrings = JSON.stringify(that.favShows);
+          localStorage['favs'] = favStrings;
+        } catch (e) {
+          alert('Error when writing on storage '+e);
+        }
     },
     requestShows: function(){
         return $.ajax({
@@ -113,11 +129,7 @@ var showBrowser = {
             $('#tvshow-app-chrome-extension__list').append('<li>'+this.listShows[i].title+" on "+this.listShows[i].network+'</li>');
           }
         }
-        //this.selectFromOption();
-        //this.populateSelectNetworks();
         this.fullCalendarTv();
-        //this.searchForFav();
-        //this.formatEvents();
     },
     init: function(){
       $.when(this.requestShows(), this.requestSearchShows()).done(function(a1,a2){

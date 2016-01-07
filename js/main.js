@@ -37,17 +37,24 @@ var showBrowser = {
               },
           }).wrap('<li><input type="checkbox" value="'+searchShows[i].id+'"/>').parent().appendTo('#suggesstion-box');
           */
-          $('<input class="searchResults" type="checkbox" value="'+searchShows[i].id+'"/>' + '<label>'+searchShows[i].name+'</label>')
+          $('<input class="searchResults" type="checkbox" value="'+searchShows[i].name+'"/>' + '<label>'+searchShows[i].name+'</label>')
           .wrap('<li>').parent().appendTo('#suggesstion-box');
         };
         console.log(searchShows);
     },
     addToFav: function(){
-        this.favShows.push($('.searchResults:checked').val());
-        console.log($('.searchResults:checked').val());
+        var that = this;
+        //that.favShows = [];
+        $('.searchResults:checked').each(function(){
+          that.favShows.push($(this).val());
+        });
+        //that.saveAll();
+        console.log(that.favShows);
+
     },
     saveAll: function(){
-        var favStrings = '', that = this;
+        var that = this;
+        var favStrings = null;
         try {
           favStrings = JSON.stringify(that.favShows);
           localStorage['favs'] = favStrings;
@@ -78,12 +85,13 @@ var showBrowser = {
       /*var show = new Show(responseJSON[i].show.name, responseJSON[i].name,
         responseJSON[i].show.schedule.time, responseJSON[i].show.network.name);
       this.listShows.push(show);*/
-      var networks = ["Teen Wolf","TNT","CBS","Showtime","ABC","Discovery","HBO","AMC","CNN","The CW","NBC","USA","BBC"];
-      var time = ["06:00","20:00","20:30","21:00","21:30","22:00"];
+      var idStrings = localStorage['favs'];
+      var idShow = JSON.parse(idStrings);
+      console.log(typeof idShow);
 
       for (var i = 0; i < responseJSON.length; i++) {
-        for (var j = 0; j < networks.length; j++) {
-            if (responseJSON[i]._embedded.show.name === networks[j] ) {
+        for (var j = 0; j < idShow.length; j++) {
+            if (responseJSON[i]._embedded.show.name === idShow[j] ) {
               this.events.push({title: responseJSON[i]._embedded.show.name, start: responseJSON[i].airdate});
             }
           }
@@ -139,4 +147,5 @@ var showBrowser = {
 };
 document.addEventListener('DOMContentLoaded', function () {
   showBrowser.init();
+  console.log(localStorage['favs']);
 });

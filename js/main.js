@@ -46,8 +46,12 @@ var showBrowser = {
         var that = this;
         //that.favShows = [];
         $('.searchResults:checked').each(function(){
-          that.favShows.push($(this).val());
-        });
+            if(that.favShows.indexOf($(this).val()) == -1){
+              that.favShows.push($(this).val());
+            } else {
+              alert('you cant do that, friend');
+            }
+          });
         //that.saveAll();
         console.log(that.favShows);
 
@@ -55,9 +59,15 @@ var showBrowser = {
     saveAll: function(){
         var that = this;
         var favStrings = null;
+        var allEntries = [];
         try {
-          favStrings = JSON.stringify(that.favShows);
-          localStorage['favs'] = favStrings;
+          if(localStorage['favs']!= null){
+            allEntries = JSON.parse(localStorage.getItem("favs"))
+            allEntries.push(JSON.stringify(that.favShows));
+          } else {
+            favStrings = JSON.stringify(that.favShows);
+            localStorage['favs'] = favStrings;
+          }
         } catch (e) {
           alert('Error when writing on storage '+e);
         }
@@ -87,7 +97,6 @@ var showBrowser = {
       this.listShows.push(show);*/
       var idStrings = localStorage['favs'];
       var idShow = JSON.parse(idStrings);
-      console.log(typeof idShow);
 
       for (var i = 0; i < responseJSON.length; i++) {
         for (var j = 0; j < idShow.length; j++) {

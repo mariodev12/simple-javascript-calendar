@@ -58,13 +58,19 @@ var showBrowser = {
     },
     saveAll: function(){
         var that = this;
-        var favStrings = null;
-        var allEntries;
-        var arr = [];
-        //var a = localStorage.getItem("favs");
+        var getData = localStorage.getItem('favShows');
+        var parsedData;
         try {
-            favStrings = JSON.stringify(that.favShows);
-            localStorage['favs'] = favStrings;
+          if(localStorage.getItem('favShows') === null){
+            localStorage.setItem('favShows', JSON.stringify(that.favShows));
+          } else {
+            parsedData = JSON.parse(getData);
+            for (var i = 0; i < that.favShows.length; i++) {
+              parsedData.push(that.favShows[i]);
+            }
+            //parsedData.push(that.favShows);
+            localStorage.setItem('favShows', JSON.stringify(parsedData));
+          }
         } catch (e) {
           alert('Error when writing on storage '+e);
         }
@@ -92,7 +98,7 @@ var showBrowser = {
       /*var show = new Show(responseJSON[i].show.name, responseJSON[i].name,
         responseJSON[i].show.schedule.time, responseJSON[i].show.network.name);
       this.listShows.push(show);*/
-      var idStrings = localStorage['favs'];
+      var idStrings = localStorage['favShows'];
       var idShow = JSON.parse(idStrings);
 
       for (var i = 0; i < responseJSON.length; i++) {

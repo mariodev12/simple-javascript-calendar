@@ -49,7 +49,7 @@ var showBrowser = {
             if(that.favShows.indexOf($(this).val()) == -1){
               that.favShows.push($(this).val());
             } else {
-              alert('you cant do that, friend');
+              alert('you cant do that');
             }
           });
         //that.saveAll();
@@ -59,15 +59,12 @@ var showBrowser = {
     saveAll: function(){
         var that = this;
         var favStrings = null;
-        var allEntries = [];
+        var allEntries;
+        var arr = [];
+        //var a = localStorage.getItem("favs");
         try {
-          if(localStorage['favs']!= null){
-            allEntries = JSON.parse(localStorage.getItem("favs"))
-            allEntries.push(JSON.stringify(that.favShows));
-          } else {
             favStrings = JSON.stringify(that.favShows);
             localStorage['favs'] = favStrings;
-          }
         } catch (e) {
           alert('Error when writing on storage '+e);
         }

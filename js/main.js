@@ -61,14 +61,18 @@ var showBrowser = {
         var getData = localStorage.getItem('favShows');
         var parsedData;
         try {
+          //Si el localstorage favshows es nulo inserta lo que haya en la array
           if(localStorage.getItem('favShows') === null){
             localStorage.setItem('favShows', JSON.stringify(that.favShows));
           } else {
+          /*Si por lo contrario ya hay algo obtiene el contenido de localstorage
+          y conviertelo en un objeto (en este caso un array) y guardalo en una
+          variable. Recorre el array y guardalo en la array que hemos creado antes
+          una vez listo vuelve a convertirlo en un string y metelo en localstorage */
             parsedData = JSON.parse(getData);
             for (var i = 0; i < that.favShows.length; i++) {
               parsedData.push(that.favShows[i]);
             }
-            //parsedData.push(that.favShows);
             localStorage.setItem('favShows', JSON.stringify(parsedData));
           }
         } catch (e) {
@@ -140,6 +144,31 @@ var showBrowser = {
       });
 
     },
+    selectWithDeleteFavs: function(){
+      /* ["Teen Wolf","Quantico","The Big Bang Theory","The Simpsons","The Good Wife",
+      "Beowulf: Return to the Shieldlands","Hawaii Five-0","MasterChef Junior","Supergirl",
+      "Scorpion","NCIS: Los Angeles","New Girl",
+      "The Shannara Chronicles","Modern Family","Arrow","The Flash","DC's Legends of Tomorrow","The 100"] */
+      var arraySelect = JSON.parse(localStorage['favShows']);
+      for (var i = 0; i < arraySelect.length; i++) {
+        $('#deleteFav').append('<option>'+arraySelect[i]+'</option>');
+      }
+      this.deleteFavSelect();
+    },
+    deleteFavSelect: function(callback){
+      var arraySelect = JSON.parse(localStorage['favShows']);
+      $('#deleteFav').change(function(){
+        $('select option:selected').each(function(){
+          console.log($(this).text());
+          for (var i = 0; i < arraySelect.length; i++) {
+            if(arraySelect[i] === $(this).text()){
+              arraySelect.splice(i,1);
+            }
+          }
+          localStorage['favShows'] = JSON.stringify(arraySelect);
+        });
+      });
+    },
     fillTab: function(){
 
         $('<ul></ul>');
@@ -154,6 +183,7 @@ var showBrowser = {
     init: function(){
       $.when(this.requestShows(), this.requestSearchShows()).done(function(a1,a2){
         showBrowser.fillTab();
+        showBrowser.selectWithDeleteFavs();
       });
     }
 };

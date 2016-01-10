@@ -14,11 +14,16 @@
 	     <input type="text" id="search-box" placeholder="Shows" />
 	      <ul id="suggesstion-box"></ul>
     </div>
-    <!--<form id="listNetworks">
-      <input type="checkbox" name="network" value="CNN">CNN<br>
-      <input type="checkbox" name="vehicle" value="ESPN" checked>ESPN<br>
-    </form>
-    <select id="networkShows" name="networks"></select> -->
+    <button onclick="showBrowser.addToFav();">add to fav</button>
+    <button onclick="showBrowser.saveAll();">Save All</button>
+
+    <div class="delete-favorites">
+      <select id="deleteFav">
+        <option>--- Delete Tv Shows ---</option>
+      </select>
+      <button onclick="showBrowser.deleteFavSelect();">Delete Fav</button>
+    </div>
+
     <h1 class="tvshow-app-chrome-extension__h1">
       Today's Shows
     </h1>

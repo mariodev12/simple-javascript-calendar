@@ -108,7 +108,7 @@ var showBrowser = {
       for (var i = 0; i < responseJSON.length; i++) {
         for (var j = 0; j < idShow.length; j++) {
             if (responseJSON[i]._embedded.show.name === idShow[j] ) {
-              this.events.push({title: responseJSON[i]._embedded.show.name, start: responseJSON[i].airdate});
+              this.events.push({title: responseJSON[i]._embedded.show.name, start: responseJSON[i].airdate, episode: responseJSON[i].season+"x"+responseJSON[i].number });
             }
           }
       };
@@ -135,7 +135,10 @@ var showBrowser = {
     },
     fullCalendarTv: function(){
       $('#calendar').fullCalendar({
-        events: this.events
+        events: this.events,
+        eventRender: function(event, element) {
+            $(element).tooltip({title: event.episode});
+        }
       });
     },
     selectFromOption: function(){

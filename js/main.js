@@ -1,5 +1,4 @@
 'use strict';
-
 var showBrowser = {
     tvmazeAPi: 'http://api.tvmaze.com/schedule/full',
     tvMazeApiSearch: 'http://api.tvmaze.com/search/shows?q=',
@@ -85,6 +84,7 @@ var showBrowser = {
                 type: "GET",
                 url: this.tvmazeAPi,
                 success: this.getTvShowFromMaze.bind(this),
+                cache: true,
                 error: this.loadErrors,
                 beforeSend: function(){
                   $('#loading').show();
@@ -193,4 +193,5 @@ var showBrowser = {
 document.addEventListener('DOMContentLoaded', function () {
   showBrowser.init();
   console.log(localStorage['favs']);
+  $('.fc-toolbar > div').removeClass('fc-left').addClass('fc-center');
 });

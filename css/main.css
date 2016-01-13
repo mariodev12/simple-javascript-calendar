@@ -6,7 +6,7 @@
 .fc-event {
   cursor: pointer;
 }
-#tvshow-app-chrome-extension__list {
+ul li {
   list-style: none;
 }
 ul#tvshow-app-chrome-extension__list li {

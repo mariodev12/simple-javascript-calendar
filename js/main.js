@@ -5,12 +5,6 @@ var showBrowser = {
     listShows: [],
     favShows: [],
     events: [],
-    //helper
-    /* checkrepeat: function(array){
-      return array.filter(function(elem,index,self){
-        index == self.indexOf(elem);
-      });
-    }, */
     requestSearchShows: function(){
       var that = this;
         $('#search-box').keyup(function(){
@@ -41,10 +35,24 @@ var showBrowser = {
               },
           }).wrap('<li><input type="checkbox" value="'+searchShows[i].id+'"/>').parent().appendTo('#suggesstion-box');
           */
-          $('<input class="searchResults" type="checkbox" value="'+searchShows[i].name+'"/>' + '<label>'+searchShows[i].name+'</label>')
-          .wrap('<li>').parent().appendTo('#suggesstion-box');
+          $('#suggesstion-box').append('<li/>');
+          $('#suggesstion-box li:last').append(
+            $('<input />', {
+              class: 'searchResults',
+              type: 'checkbox',
+              name: 'favorite',
+              value: searchShows[i].name
+            })
+          );
+          $('#suggesstion-box li:last').append(
+            $('<label />', {
+                'text': searchShows[i].name,
+            })
+          );
+          /*
+          $('<input class="searchResults" type="checkbox" value="'+searchShows[i].name+'"/><label>'
+          +searchShows[i].name+'</label>').wrap('<li>').parent().appendTo('#suggesstion-box'); */
         };
-        console.log(searchShows);
     },
     addToFav: function(){
         var that = this;
@@ -56,7 +64,7 @@ var showBrowser = {
               alert('you cant do that');
             }
           });
-        //that.saveAll();
+        that.saveAll();
         console.log(that.favShows);
 
     },
@@ -186,16 +194,28 @@ var showBrowser = {
         });
       });
     },
+    showModule: function(){
+      $(function() {
+          //----- OPEN
+          $('[data-popup-open]').on('click', function(e)  {
+              var targeted_popup_class = jQuery(this).attr('data-popup-open');
+              $('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);
+
+              e.preventDefault();
+          });
+
+          //----- CLOSE
+          $('[data-popup-close]').on('click', function(e)  {
+              var targeted_popup_class = jQuery(this).attr('data-popup-close');
+              $('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);
+
+              e.preventDefault();
+          });
+      });
+    },
     fillTab: function(){
-
-        $('<ul></ul>');
-
-        for (var i = 0; i < this.listShows.length; i++) {
-          if(this.listShows[i].network === this.currentNetwork){
-            $('#tvshow-app-chrome-extension__list').append('<li>'+this.listShows[i].title+" on "+this.listShows[i].network+'</li>');
-          }
-        }
-        this.fullCalendarTv();
+      this.showModule();
+      this.fullCalendarTv();
     },
     init: function(){
       $.when(this.requestShows(), this.requestSearchShows()).done(function(a1,a2){
@@ -207,5 +227,4 @@ var showBrowser = {
 document.addEventListener('DOMContentLoaded', function () {
   showBrowser.init();
   console.log(localStorage['favs']);
-  $('.fc-toolbar > div').removeClass('fc-left').addClass('fc-center');
 });

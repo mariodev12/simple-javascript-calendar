@@ -7,31 +7,62 @@
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.min.css" charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
     integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   </head>
   <body class="tvshow-app-chrome-extension__body">
-    <div class="frmSearch">
-	     <input type="text" id="search-box" placeholder="Shows" />
-	      <ul id="suggesstion-box"></ul>
-    </div>
-    <button onclick="showBrowser.addToFav();">add to fav</button>
-    <button onclick="showBrowser.saveAll();">Save All</button>
+    <header>
+      <div class="logo">
+        <ul>
+          <li class="plus-add-show">
+            <i class="fa fa-plus"></i>
+            <a data-popup-open="popup-1" href="#"><span>Add tv Shows</span></a>
+          </li>
+          <li class="trash-delete-show">
+            <i class="fa fa-trash"></i>
+            <a data-popup-open="popup-2" href="#"><span>Delete tv Shows</span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="menu-options"></div>
+    </header>
 
-    <div class="delete-favorites">
-      <select id="deleteFav">
-        <option>--- Delete Tv Shows ---</option>
-      </select>
-      <button onclick="showBrowser.deleteFavSelect();">Delete Fav</button>
+    <div class="popup" data-popup="popup-1">
+        <div class="popup-inner">
+          <div class="popup-search">
+              <div class="frmSearch">
+                 <input type="text" id="search-box" placeholder="Shows" />
+                 <div class="containerData">
+                    <ul id="suggesstion-box"></ul>
+                 </div>
+              </div>
+              <button onclick="showBrowser.addToFav();">add to fav</button>
+              <button onclick="showBrowser.saveAll();">Save All</button>
+          </div>
+            <p><a data-popup-close="popup-1" href="#">Close</a></p>
+            <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+        </div>
     </div>
-    <ul id="tvshow-app-chrome-extension__list">
-    </ul>
+    <div class="popup" data-popup="popup-2">
+        <div class="popup-inner">
+      <div class="popup-delete-favorites">
+        <select id="deleteFav">
+          <option>--- Delete Tv Shows ---</option>
+        </select>
+        <button class="btn-delete btn btn-danger" onclick="showBrowser.deleteFavSelect();">Delete</button>
+      </div>
+      <p><a data-popup-close="popup-2" href="#">Close</a></p>
+      <a class="popup-close" data-popup-close="popup-2" href="#">x</a>
+    </div>
+</div>
     <div id="calendar"></div>
   </body>
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+  integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+  crossorigin="anonymous"></script>
+  <script src="js/bootbox.min.js"></script>
   <script src="http://momentjs.com/downloads/moment.js" charset="utf-8"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.min.js" charset="utf-8"></script>
   <script src="js/show.js" charset="utf-8"></script>
   <script src="js/main.js" charset="utf-8"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-  integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-  crossorigin="anonymous"></script>
 </html>

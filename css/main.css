@@ -1,4 +1,37 @@
 /*  Read about this page here: https://developer.chrome.com/extensions/content_scripts.html */
+header {
+  display: flex;
+  height: 70px;
+  padding: 15px 0px;
+}
+.containerData {
+    height: 150px;
+    -moz-columns: 2 200px;
+    -webkit-columns: 2 200px;
+    columns: 2 200px;
+    margin-top: 20px;
+}
+#search-box {
+  width: 100%;
+}
+ul#suggesstion-box {
+    height: 100%;
+    width: 100%;
+    padding-left: 0;
+}
+#suggestion-box label {
+  margin-left: 15px;
+}
+header .logo {
+  width: 200px;
+  height: 100%;
+  float: right;
+}
+.btn-delete {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
 .tvshow-app-chrome-extension__body {
     /*width: 175px; */
     height: 100%;
@@ -12,3 +45,143 @@ ul li {
 ul#tvshow-app-chrome-extension__list li {
     margin-bottom: 20px;
 }
+.popup {
+    width:100%;
+    height:100%;
+    display:none;
+    position:fixed;
+    top:0px;
+    left:0px;
+    background:rgba(0,0,0,0.75);
+    z-index: 99999;
+}
+
+/* Inner */
+.popup-inner {
+    max-width:700px;
+    width:90%;
+    padding:40px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform:translate(-50%, -50%);
+    transform:translate(-50%, -50%);
+    box-shadow:0px 2px 6px rgba(0,0,0,1);
+    border-radius:3px;
+    background:#fff;
+}
+
+/* Close Button */
+.popup-close {
+    width:30px;
+    height:30px;
+    padding-top:4px;
+    display:inline-block;
+    position:absolute;
+    top:0px;
+    right:0px;
+    transition:ease 0.25s all;
+    -webkit-transform:translate(50%, -50%);
+    transform:translate(50%, -50%);
+    border-radius:1000px;
+    background:rgba(0,0,0,0.8);
+    font-family:Arial, Sans-Serif;
+    font-size:20px;
+    text-align:center;
+    line-height:100%;
+    color:#fff;
+}
+
+.popup-close:hover {
+    -webkit-transform:translate(50%, -50%) rotate(180deg);
+    transform:translate(50%, -50%) rotate(180deg);
+    background:rgba(0,0,0,1);
+    text-decoration:none;
+}
+/*select box*/
+.dropdown {
+      position: relative;
+      display:block;
+      margin-top:0.5em;
+      overflow:hidden;
+      width:100%;
+      max-width:100%;
+    }
+
+    select {
+      /* Make sure the select is wider than the container so we can clip the arrow */
+      width:100%;
+      max-width:100%;
+      min-width:100%;
+      /* Remove select styling */
+      appearance: none;
+      -webkit-appearance: none;
+      /* Ugly Firefox way of doing it */
+      -moz-appearance: window;
+      text-indent: 0.01px;
+      text-overflow: "";
+      /* Magic font size number to prevent iOS text zoom */
+      font-size:16px;
+      font-weight: bold;
+      background:none;
+      border: none;
+      color: #444;
+      outline: none;
+      /* Padding works surpringly well */
+      padding: .4em 19% .4em .8em;
+      font-family: helvetica, sans-serif;
+      line-height:1.2;
+      margin:.2em;
+    }
+
+    /* This hides native dropdown button arrow in IE */
+    select::-ms-expand {
+      display: none;
+    }
+
+     /* Custom arrow - could be an image, SVG, icon font, etc. */
+    .dropdown:after {
+      background: none;
+      color: #bbb;
+      content: "\25BC";
+      font-size: .7em;
+      padding:0;
+      position: absolute;
+      right: 1em;
+      top: 1.2em;
+      bottom: .3em;
+      z-index: 1;
+      /* This hack makes the select behind the arrow clickable in some browsers */
+      pointer-events:none;
+    }
+
+    /* Hover style - tricky because we're clipping the overflow */
+    .dropdown:hover {
+      border:1px solid #888;
+    }
+
+    /* Focus style */
+    select:focus {
+      outline: none;
+      box-shadow: 0 0 3px 3px rgba(180,222,250, .85);
+    }
+
+    /* This hides focus around selected option in FF */
+    select:-moz-focusring {
+      color: transparent;
+      text-shadow: 0 0 0 #000;
+    }
+    /* These are just demo button-y styles, style as you like */
+    .popup-delete-favorites .button {
+      border: 1px solid #bbb;
+      border-radius: .3em;
+      box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+      background: #f3f3f3; /* Old browsers */
+      background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* IE10+ */
+      background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+    }

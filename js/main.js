@@ -5,7 +5,12 @@ var showBrowser = {
     listShows: [],
     favShows: [],
     events: [],
-
+    //helper
+    /* checkrepeat: function(array){
+      return array.filter(function(elem,index,self){
+        index == self.indexOf(elem);
+      });
+    }, */
     requestSearchShows: function(){
       var that = this;
         $('#search-box').keyup(function(){
@@ -59,10 +64,15 @@ var showBrowser = {
         var that = this;
         var getData = localStorage.getItem('favShows');
         var parsedData;
+        var uniqueArray;
+        //var noRepeatFavShows = that.checkrepeat(that.favShows);
+
         try {
           //Si el localstorage favshows es nulo inserta lo que haya en la array
-          if(localStorage.getItem('favShows') === null){
+          if(localStorage.getItem('favShows') === null || localStorage.getItem('favShows') === 'undefined'
+          || localStorage.getItem('favShows') === undefined ){
             localStorage.setItem('favShows', JSON.stringify(that.favShows));
+            //console.log(noRepeatFavShows);
           } else {
           /*Si por lo contrario ya hay algo obtiene el contenido de localstorage
           y conviertelo en un objeto (en este caso un array) y guardalo en una
@@ -72,7 +82,11 @@ var showBrowser = {
             for (var i = 0; i < that.favShows.length; i++) {
               parsedData.push(that.favShows[i]);
             }
-            localStorage.setItem('favShows', JSON.stringify(parsedData));
+            uniqueArray = parsedData.filter(function(elem, index, array) {
+                return array.indexOf(elem) === index;
+              }
+            );
+            localStorage.setItem('favShows', JSON.stringify(uniqueArray));
           }
         } catch (e) {
           alert('Error when writing on storage '+e);
@@ -84,7 +98,6 @@ var showBrowser = {
                 type: "GET",
                 url: this.tvmazeAPi,
                 success: this.getTvShowFromMaze.bind(this),
-                cache: true,
                 error: this.loadErrors,
                 beforeSend: function(){
                   $('#loading').show();
@@ -108,7 +121,8 @@ var showBrowser = {
       for (var i = 0; i < responseJSON.length; i++) {
         for (var j = 0; j < idShow.length; j++) {
             if (responseJSON[i]._embedded.show.name === idShow[j] ) {
-              this.events.push({title: responseJSON[i]._embedded.show.name, start: responseJSON[i].airdate, episode: responseJSON[i].season+"x"+responseJSON[i].number });
+              this.events.push({title: responseJSON[i]._embedded.show.name,
+                start: responseJSON[i].airdate, episode: responseJSON[i].season+"x"+responseJSON[i].number });
             }
           }
       };

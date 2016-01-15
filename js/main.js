@@ -63,7 +63,9 @@ var showBrowser = {
                   'data-value': searchShows[i].name,
                   click: function(e){
                     var index = $.inArray($(this).data('value'), showData);
-                    showData.splice(index, 1);
+                    if(index > -1){
+                      showData.splice(index, 1);
+                    }
                     localStorage['favShows'] = JSON.stringify(showData);
                     $(this).removeClass('following');
                     $(this).addClass('unfollowing');
@@ -177,6 +179,9 @@ var showBrowser = {
         that.saveAll();
         console.log(that.favShows);
         */
+    },
+    done: function(){
+      $(window).load();
     },
     saveAll: function(){
         var that = this;

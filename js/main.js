@@ -5,6 +5,7 @@ var showBrowser = {
     listShows: [],
     favShows: [],
     events: [],
+
     requestSearchShows: function(){
       var that = this;
         $('#search-box').keyup(function(){
@@ -17,6 +18,7 @@ var showBrowser = {
       })
     },
     multisearchShows: function(data){
+        var showData = JSON.parse(localStorage.getItem('favShows'));
         var that = this;
         var link = [];
         var searchShows = [];
@@ -36,14 +38,39 @@ var showBrowser = {
           }).wrap('<li><input type="checkbox" value="'+searchShows[i].id+'"/>').parent().appendTo('#suggesstion-box');
           */
           $('#suggesstion-box').append('<li/>');
-          $('#suggesstion-box li:last').append(
-            $('<input />', {
-              class: 'searchResults',
-              type: 'checkbox',
-              name: 'favorite',
-              value: searchShows[i].name
-            })
-          );
+            if(showData.indexOf(searchShows[i].name) == -1){
+              $('#suggesstion-box li:last').append(
+                $('<i />', {
+                  class: 'fa fa-heart fav unfollowing',
+                  'data-value': searchShows[i].name,
+                  click: function(e){
+                    var index = $.inArray($(this).data('value'), showData);
+                    console.log(index);
+                    console.log($(this).data('value'));
+                    if(index == -1) {
+                      showData.push($(this).data('value'));
+                    }
+                    localStorage['favShows'] = JSON.stringify(showData);
+                    $(this).removeClass('unfollowing');
+                    $(this).addClass('following');
+                  }
+                })
+              );
+            } else {
+              $('#suggesstion-box li:last').append(
+                $('<i />', {
+                  class: 'fa fa-heart fav following',
+                  'data-value': searchShows[i].name,
+                  click: function(e){
+                    var index = $.inArray($(this).data('value'), showData);
+                    showData.splice(index, 1);
+                    localStorage['favShows'] = JSON.stringify(showData);
+                    $(this).removeClass('following');
+                    $(this).addClass('unfollowing');
+                  }
+                })
+              );
+            }
           $('#suggesstion-box li:last').append(
             $('<label />', {
                 'text': searchShows[i].name,
@@ -55,6 +82,89 @@ var showBrowser = {
         };
     },
     addToFav: function(){
+      var data = JSON.parse(localStorage['favShows']);
+      var index;
+      var dataValue;
+      var uniqueShow;
+      /* $('.fav').on('change', function(){
+
+      }) */
+      $('.fav').on('click', function(){
+        if($(this).hasClass('unfollowing')){
+          index = data.indexOf($(this).data('value'));
+          console.log(index);
+          if(index > -1){
+            data.splice(index, 1);
+          }
+          //insertar data en localStorage['favShows']
+          localStorage['favShows'] = JSON.stringify(data);
+          $(this).removeClass('unfollowing');
+          $(this).addClass('following');
+
+        } else {
+          dataValue = $('.following').data('value');
+          data.push(dataValue);
+          /* uniqueShow = data.filter(function(elem, index, array) {
+              return array.indexOf(elem) === index;
+            }
+          ); */
+          localStorage['favShows'] = JSON.stringify(data);
+          $(this).removeClass('following');
+          $(this).addClass('unfollowing');
+        }
+      });
+      /*
+      click : function(e) {
+        if(e.target.previousSibling) {
+          //remove favorite
+          console.log("remove favorite",e.currentTarget.name);
+
+          var index = $.inArray(e.currentTarget.name, streamBrowser.favoritesList);
+          streamBrowser.favoritesList.splice(index, 1);
+
+          e.target.previousSibling.style.display = "block";
+          e.target.style.display = "none";
+        }else {
+          // add favorite
+          console.log("add favorite",e.currentTarget.name);
+          var index = $.inArray(e.currentTarget.name, streamBrowser.favoritesList);
+          if(index == -1) {
+            streamBrowser.favoritesList.push(e.currentTarget.name);
+          }
+          e.target.nextSibling.style.display = "block";
+          e.target.style.display = "none";
+        }
+        streamBrowser.saveFavoritesToStorage();
+
+        streamBrowser.fillTabs();
+      }
+    });
+
+
+
+
+
+
+
+
+
+      if($('.fav').hasClass('unfollowing')){
+        index = data.indexOf($(this).value());
+        if(index > -1){
+          data.splice(index, 1);
+        }
+        $('.fav').removeClass('unfollowing');
+        $('.fav').addClass('following');
+        //insertar data en localStorage['favShows']
+        localStorage['favShows'] = JSON.stringify(data);
+      } else {
+        dataValue = $('.following').data('value');
+        data.push(dataValue);
+        localStorage['favShows'] = JSON.stringify(data);
+        $('.fav').removeClass('following');
+        $('.fav').addClass('unfollowing');
+      }
+        $('.fav').data('value');
         var that = this;
         //that.favShows = [];
         $('.searchResults:checked').each(function(){
@@ -66,7 +176,7 @@ var showBrowser = {
           });
         that.saveAll();
         console.log(that.favShows);
-
+        */
     },
     saveAll: function(){
         var that = this;

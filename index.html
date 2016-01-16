@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>The TV Calendar January 2016 - Track your favourite TV shows</title>
     <link rel="stylesheet" href="css/main.css" title="no title" charset="utf-8">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.min.css" charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -11,15 +11,14 @@
   </head>
   <body class="tvshow-app-chrome-extension__body">
     <header>
+      <img alt="logo-img" src="img/logo.png"/>
       <div class="logo">
         <ul>
-          <li class="plus-add-show">
-            <a class="addShow" data-popup-open="popup-1" href="#"> <i class="fa fa-plus"></i></a>
-            <a data-popup-open="popup-1" href="#"><span>Add tv Shows</span></a>
-          </li>
           <li class="trash-delete-show">
-            <a class="deleteShow" data-popup-open="popup-2" href="#"><i class="fa fa-trash"></i></a>
-            <a data-toggle="tooltip" title="Delete Shows" data-popup-open="popup-2" href="#"><span>Delete tv Shows</span></a>
+            <a data-toggle="tooltip" title="Delete Show" data-placement="bottom" class="deleteShow" data-popup-open="popup-2" href="#"><i class="fa fa-trash"></i></a>
+          </li>
+          <li class="plus-add-show">
+            <a data-toggle="tooltip" title="Add Show" data-placement="bottom" class="addShow" data-popup-open="popup-1" href="#"> <i class="fa fa-plus"></i></a>
           </li>
         </ul>
       </div>

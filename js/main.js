@@ -272,6 +272,11 @@ var showBrowser = {
     },
     fullCalendarTv: function(){
       $('#calendar').fullCalendar({
+        header: {
+            left: 'prev',
+            center: 'title',
+            right : 'next'
+        },
         events: this.events,
         lazyFetching: true,
         eventRender: function(event, element) {

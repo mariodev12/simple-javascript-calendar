@@ -4,6 +4,41 @@ header {
   height: 70px;
   padding: 15px 0px;
 }
+.header-fixed {
+  background:#fff;
+  position:fixed;
+  border-bottom: 1px #ccc solid;
+  width:100%;
+  height:70px;
+  z-index: 9999;
+  -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.header-fixed .logo i {
+  font-size: 45px;
+}
+.header-fixed .logo a:last-child {
+  display: none;
+}
+.header-fixed .logo li {
+  display: inline-block;
+}
+.header-fixed .logo li:last-child {
+  margin-left: 20px;
+}
+/* calendar */
+.fc-past, .fc-future {
+  background: #353535;
+}
+
+
+
+
+
+/* header */
 .unfollowing {
   color: black;
 }

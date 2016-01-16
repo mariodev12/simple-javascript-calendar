@@ -14,12 +14,12 @@
       <div class="logo">
         <ul>
           <li class="plus-add-show">
-            <i class="fa fa-plus"></i>
+            <a class="addShow" data-popup-open="popup-1" href="#"> <i class="fa fa-plus"></i></a>
             <a data-popup-open="popup-1" href="#"><span>Add tv Shows</span></a>
           </li>
           <li class="trash-delete-show">
-            <i class="fa fa-trash"></i>
-            <a data-popup-open="popup-2" href="#"><span>Delete tv Shows</span></a>
+            <a class="deleteShow" data-popup-open="popup-2" href="#"><i class="fa fa-trash"></i></a>
+            <a data-toggle="tooltip" title="Delete Shows" data-popup-open="popup-2" href="#"><span>Delete tv Shows</span></a>
           </li>
         </ul>
       </div>
@@ -48,7 +48,6 @@
         </select>
         <button class="btn-delete btn btn-danger" onclick="showBrowser.deleteFavSelect();">Delete</button>
       </div>
-      <p><a data-popup-close="popup-2" href="#">Close</a></p>
       <a class="popup-close" data-popup-close="popup-2" href="#">x</a>
     </div>
 </div>

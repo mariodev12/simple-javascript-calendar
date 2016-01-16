@@ -273,6 +273,7 @@ var showBrowser = {
     fullCalendarTv: function(){
       $('#calendar').fullCalendar({
         events: this.events,
+        lazyFetching: true,
         eventRender: function(event, element) {
             $(element).tooltip({title: event.episode});
         }
@@ -341,5 +342,4 @@ var showBrowser = {
 };
 document.addEventListener('DOMContentLoaded', function () {
   showBrowser.init();
-  console.log(localStorage['favs']);
 });

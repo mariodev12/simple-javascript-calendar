@@ -335,16 +335,28 @@ var showBrowser = {
       });
     },
     fillTab: function(){
-      this.showModule();
       this.fullCalendarTv();
     },
     init: function(){
-      $.when(this.requestShows(), this.requestSearchShows()).done(function(a1,a2){
+      $.when(this.requestShows()).done(function(a1,a2){
         showBrowser.fillTab();
+      });
+      $.when(this.requestSearchShows()).done(function(a1,a2){
+        showBrowser.showModule();
         showBrowser.selectWithDeleteFavs();
       });
     }
 };
 document.addEventListener('DOMContentLoaded', function () {
-  showBrowser.init();
+  if(!localStorage['favShows'] || localStorage['favShows'].length == 0
+  || localStorage['favShows'] === null || localStorage['favShows'] === undefined || localStorage['favShows'] === 'undefined') {
+    localStorage.setItem("favShows", "[]");
+      $.when(showBrowser.requestSearchShows()).done(function(a1,a2){
+        showBrowser.showModule();
+        showBrowser.selectWithDeleteFavs();
+        $('[data-popup="popup-1"]').css('display','block');
+      });
+  } else {
+    showBrowser.init();
+  }
 });

@@ -48,6 +48,17 @@ header .logo li {
     display: inline-block;
     margin: 0px 10px 0px 10px;
 }
+/* footer */
+.social {
+
+}
+.social ul {
+  list-style: none;
+}
+.social li {
+
+}
+
 /* calendar */
 .fc-past, .fc-future {
   background: white;

@@ -115,70 +115,6 @@ var showBrowser = {
           $(this).addClass('unfollowing');
         }
       });
-      /*
-      click : function(e) {
-        if(e.target.previousSibling) {
-          //remove favorite
-          console.log("remove favorite",e.currentTarget.name);
-
-          var index = $.inArray(e.currentTarget.name, streamBrowser.favoritesList);
-          streamBrowser.favoritesList.splice(index, 1);
-
-          e.target.previousSibling.style.display = "block";
-          e.target.style.display = "none";
-        }else {
-          // add favorite
-          console.log("add favorite",e.currentTarget.name);
-          var index = $.inArray(e.currentTarget.name, streamBrowser.favoritesList);
-          if(index == -1) {
-            streamBrowser.favoritesList.push(e.currentTarget.name);
-          }
-          e.target.nextSibling.style.display = "block";
-          e.target.style.display = "none";
-        }
-        streamBrowser.saveFavoritesToStorage();
-
-        streamBrowser.fillTabs();
-      }
-    });
-
-
-
-
-
-
-
-
-
-      if($('.fav').hasClass('unfollowing')){
-        index = data.indexOf($(this).value());
-        if(index > -1){
-          data.splice(index, 1);
-        }
-        $('.fav').removeClass('unfollowing');
-        $('.fav').addClass('following');
-        //insertar data en localStorage['favShows']
-        localStorage['favShows'] = JSON.stringify(data);
-      } else {
-        dataValue = $('.following').data('value');
-        data.push(dataValue);
-        localStorage['favShows'] = JSON.stringify(data);
-        $('.fav').removeClass('following');
-        $('.fav').addClass('unfollowing');
-      }
-        $('.fav').data('value');
-        var that = this;
-        //that.favShows = [];
-        $('.searchResults:checked').each(function(){
-            if(that.favShows.indexOf($(this).val()) == -1){
-              that.favShows.push($(this).val());
-            } else {
-              alert('you cant do that');
-            }
-          });
-        that.saveAll();
-        console.log(that.favShows);
-        */
     },
     done: function(){
       $(window).load();
@@ -291,10 +227,7 @@ var showBrowser = {
 
     },
     selectWithDeleteFavs: function(){
-      /* ["Teen Wolf","Quantico","The Big Bang Theory","The Simpsons","The Good Wife",
-      "Beowulf: Return to the Shieldlands","Hawaii Five-0","MasterChef Junior","Supergirl",
-      "Scorpion","NCIS: Los Angeles","New Girl",
-      "The Shannara Chronicles","Modern Family","Arrow","The Flash","DC's Legends of Tomorrow","The 100"] */
+      /* ["Teen Wolf","Quantico","The Big Bang Theory","The Simpsons","The Good Wife","Beowulf: Return to the Shieldlands","Hawaii Five-0","MasterChef Junior","Supergirl","Scorpion","NCIS: Los Angeles","New Girl","The Shannara Chronicles","Modern Family","Arrow","The Flash","DC's Legends of Tomorrow","The 100"] */
       var arraySelect = JSON.parse(localStorage['favShows']);
       for (var i = 0; i < arraySelect.length; i++) {
         $('#deleteFav').append('<option>'+arraySelect[i]+'</option>');

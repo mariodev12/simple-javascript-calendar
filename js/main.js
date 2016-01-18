@@ -3,7 +3,6 @@ var showBrowser = {
     tvmazeAPi: 'http://api.tvmaze.com/schedule/full',
     tvMazeApiSearch: 'http://api.tvmaze.com/search/shows?q=',
     listShows: [],
-    favShows: [],
     events: [],
 
     requestSearchShows: function(){
@@ -20,23 +19,12 @@ var showBrowser = {
     multisearchShows: function(data){
         var showData = JSON.parse(localStorage.getItem('favShows'));
         var that = this;
-        var link = [];
         var searchShows = [];
         for (var i = 0; i < data.length; i++) {
           searchShows.push({name: data[i].show.name, id: data[i].show.id});
         }
         $('#suggesstion-box').empty();
         for (var i = 0; i < searchShows.length; i++) {
-          /*$('<a>',{
-              id: "result",
-              text: searchShows[i].name,
-              title: searchShows[i].name,
-              href: '#'+searchShows[i].id,
-              click: function(){
-                showBrowser.favShows.push($(this).attr('href'));
-              },
-          }).wrap('<li><input type="checkbox" value="'+searchShows[i].id+'"/>').parent().appendTo('#suggesstion-box');
-          */
           $('#suggesstion-box').append('<li/>');
             if(showData.indexOf(searchShows[i].name) == -1){
               $('#suggesstion-box li:last').append(
@@ -45,8 +33,6 @@ var showBrowser = {
                   'data-value': searchShows[i].name,
                   click: function(e){
                     var index = $.inArray($(this).data('value'), showData);
-                    console.log(index);
-                    console.log($(this).data('value'));
                     if(index == -1) {
                       showData.push($(this).data('value'));
                     }
@@ -78,23 +64,15 @@ var showBrowser = {
                 'text': searchShows[i].name,
             })
           );
-          /*
-          $('<input class="searchResults" type="checkbox" value="'+searchShows[i].name+'"/><label>'
-          +searchShows[i].name+'</label>').wrap('<li>').parent().appendTo('#suggesstion-box'); */
         };
     },
     addToFav: function(){
       var data = JSON.parse(localStorage['favShows']);
       var index;
       var dataValue;
-      var uniqueShow;
-      /* $('.fav').on('change', function(){
-
-      }) */
       $('.fav').on('click', function(){
         if($(this).hasClass('unfollowing')){
           index = data.indexOf($(this).data('value'));
-          console.log(index);
           if(index > -1){
             data.splice(index, 1);
           }
@@ -106,50 +84,11 @@ var showBrowser = {
         } else {
           dataValue = $('.following').data('value');
           data.push(dataValue);
-          /* uniqueShow = data.filter(function(elem, index, array) {
-              return array.indexOf(elem) === index;
-            }
-          ); */
           localStorage['favShows'] = JSON.stringify(data);
           $(this).removeClass('following');
           $(this).addClass('unfollowing');
         }
       });
-    },
-    done: function(){
-      $(window).load();
-    },
-    saveAll: function(){
-        var that = this;
-        var getData = localStorage.getItem('favShows');
-        var parsedData;
-        var uniqueArray;
-        //var noRepeatFavShows = that.checkrepeat(that.favShows);
-
-        try {
-          //Si el localstorage favshows es nulo inserta lo que haya en la array
-          if(localStorage.getItem('favShows') === null || localStorage.getItem('favShows') === 'undefined'
-          || localStorage.getItem('favShows') === undefined ){
-            localStorage.setItem('favShows', JSON.stringify(that.favShows));
-            //console.log(noRepeatFavShows);
-          } else {
-          /*Si por lo contrario ya hay algo obtiene el contenido de localstorage
-          y conviertelo en un objeto (en este caso un array) y guardalo en una
-          variable. Recorre el array y guardalo en la array que hemos creado antes
-          una vez listo vuelve a convertirlo en un string y metelo en localstorage */
-            parsedData = JSON.parse(getData);
-            for (var i = 0; i < that.favShows.length; i++) {
-              parsedData.push(that.favShows[i]);
-            }
-            uniqueArray = parsedData.filter(function(elem, index, array) {
-                return array.indexOf(elem) === index;
-              }
-            );
-            localStorage.setItem('favShows', JSON.stringify(uniqueArray));
-          }
-        } catch (e) {
-          alert('Error when writing on storage '+e);
-        }
     },
     requestShows: function(){
         return $.ajax({
@@ -171,9 +110,6 @@ var showBrowser = {
 	  },
     getTvShowFromMaze: function(responseJSON){
       var data = JSON.stringify(responseJSON);
-      /*var show = new Show(responseJSON[i].show.name, responseJSON[i].name,
-        responseJSON[i].show.schedule.time, responseJSON[i].show.network.name);
-      this.listShows.push(show);*/
       var idStrings = localStorage['favShows'];
       var idShow = JSON.parse(idStrings);
 
@@ -220,12 +156,6 @@ var showBrowser = {
         }
       });
     },
-    selectFromOption: function(){
-      $('#networkShows').change(function(){
-        this.currentNetwork = this.value.split('-').join(' ');
-      });
-
-    },
     selectWithDeleteFavs: function(){
       /* ["Teen Wolf","Quantico","The Big Bang Theory","The Simpsons","The Good Wife","Beowulf: Return to the Shieldlands","Hawaii Five-0","MasterChef Junior","Supergirl","Scorpion","NCIS: Los Angeles","New Girl","The Shannara Chronicles","Modern Family","Arrow","The Flash","DC's Legends of Tomorrow","The 100"] */
       var arraySelect = JSON.parse(localStorage['favShows']);
@@ -250,7 +180,7 @@ var showBrowser = {
     },
     showModule: function(){
       $(function() {
-          //----- OPEN
+          //OPEN
           $('[data-popup-open]').on('click', function(e)  {
               var targeted_popup_class = jQuery(this).attr('data-popup-open');
               $('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);
@@ -258,7 +188,7 @@ var showBrowser = {
               e.preventDefault();
           });
 
-          //----- CLOSE
+          //CLOSE
           $('[data-popup-close]').on('click', function(e)  {
               var targeted_popup_class = jQuery(this).attr('data-popup-close');
               $('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);

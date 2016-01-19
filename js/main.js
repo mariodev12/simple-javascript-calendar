@@ -123,6 +123,7 @@ var showBrowser = {
       };
     },
     populateSelectNetworks: function(){
+      var _data;
       var _arr = [];
       var _cleanArr = [];
       var _cleanWithoutSpace = [];

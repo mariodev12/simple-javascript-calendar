@@ -4,6 +4,7 @@ var showBrowser = {
     tvMazeApiSearch: 'http://api.tvmaze.com/search/shows?q=',
     listShows: [],
     events: [],
+    s: [],
 
     requestSearchShows: function(){
       var that = this;

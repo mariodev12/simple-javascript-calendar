@@ -24,17 +24,17 @@
       </div>
       <div class="menu-options"></div>
     </header>
-    <div id="form-login">
-      <form class="form-login">
+    <div>
+      <form id="form-login" method="post" onsubmit="Auth.login();">
         <label>User</label>
-        <input type="text" name="user" placeholder="user">
+        <input type="text" name="username" placeholder="user">
         <label>Password</label>
         <input type="password" name="password" placeholder="password">
-        <input type="button" name="submit" value="submit">
+        <button class="button" type="submit">LogIn</button>
       </form>
     </div>
     <div >
-      <form id="form-register">
+      <form id="form-register" method="post" onsubmit="Auth.register();">
         <label>User</label>
         <input type="text" name="username" placeholder="user">
         <label>Email</label>
@@ -44,7 +44,7 @@
         <label>re Password</label>
         <input type="password" name="password2" placeholder="password2">
 
-        <button class="button" type="submit">Sign up</button></p>
+        <button class="button" type="submit">Sign up</button>
       </form>
     </div>
     <div class="popup" data-popup="popup-1">

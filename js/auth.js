@@ -6,12 +6,24 @@ var Auth = (function () {
 
   Parse.initialize(APP_ID,JS_KEY);
 
-  var login = function(){
+  var currentUser = function(){
+    var currentUser = Parse.User.current();
+    if(currentUser){
+      currentUser.fetch().then(function(fetchedUser){
+        var name = fetchedUser.getUsername();
+        $('.logo ul').append('<li onclick="Parse.User.logOut();">'+name+'<li>');
+      });
+    }
+  };
+  var login = function(event){
+    event.preventDefault();
     var form = document.getElementById('form-login');
-
-    Parse.User.logIn(form.username.value,form.password.value, {
+    var username = form.username.value;
+    var password = form.password.value;
+    Parse.User.logIn(username,password, {
       success: function(user){
         form.submit();
+        window.location.href = "index.html";
         console.log('Wellcome '+user);
       },
       error: function(user, error){
@@ -20,8 +32,8 @@ var Auth = (function () {
     });
   };
 
-  var register = function(){
-    //event.preventDefault();
+  var register = function(event){
+    event.preventDefault();
     var user = new Parse.User();
     var form = document.getElementById('form-register');
 
@@ -37,6 +49,8 @@ var Auth = (function () {
       success: function(user){
         console.log("Signed up user");
         form.submit();
+        window.location.href = "index.html";
+        Auth.currentUser();
       },
       error: function(user, eror){
         console.log("error while signing up");
@@ -45,7 +59,9 @@ var Auth = (function () {
   };
   return {
     register: register,
-    login: login
+    login: login,
+    currentUser: currentUser
+
   };
-  //$('form-register').submit(false);
 })(window);
+Auth.currentUser();

@@ -9,7 +9,7 @@
     integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   </head>
-  <body class="tvshow-app-chrome-extension__body">
+  <body>
     <header>
       <img alt="logo-img" src="img/logo.png"/>
       <div class="logo">
@@ -24,29 +24,6 @@
       </div>
       <div class="menu-options"></div>
     </header>
-    <div>
-      <form id="form-login" method="post" onsubmit="Auth.login();">
-        <label>User</label>
-        <input type="text" name="username" placeholder="user">
-        <label>Password</label>
-        <input type="password" name="password" placeholder="password">
-        <button class="button" type="submit">LogIn</button>
-      </form>
-    </div>
-    <div >
-      <form id="form-register" method="post" onsubmit="Auth.register();">
-        <label>User</label>
-        <input type="text" name="username" placeholder="user">
-        <label>Email</label>
-        <input type="text" name="email" placeholder="email">
-        <label>Password</label>
-        <input type="password" name="password" placeholder="password">
-        <label>re Password</label>
-        <input type="password" name="password2" placeholder="password2">
-
-        <button class="button" type="submit">Sign up</button>
-      </form>
-    </div>
     <div class="popup" data-popup="popup-1">
         <div class="popup-inner">
           <div class="popup-search">

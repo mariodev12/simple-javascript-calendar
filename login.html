@@ -2,19 +2,30 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>TVCalendar - LogIn</title>
+    <link rel="stylesheet" href="css/main.css" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.min.css" charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   </head>
   <body>
-    <h2>Log In</h2>
-    <div>
-      <form id="form-login" role="form" method="post" onsubmit="Auth.login(event);">
-        <label>User</label>
-        <input type="text" name="username" placeholder="user">
-        <label>Password</label>
-        <input type="password" name="password" placeholder="password">
-        <button class="button" type="submit">LogIn</button>
-      </form>
-      If you are not registered yet, SignUp <a href="signup.html">here</a>.
+    <h2 class="center-text">Log In</h2>
+    <div class="container">
+      <div class="row">
+        <div class="center-block col-sm-6 col-md-5">
+          <form id="form-login" role="form" method="post" onsubmit="Auth.login(event);">
+            <div class="form-group">
+              <label>User</label>
+              <input type="text" name="username" placeholder="user">
+            </div>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="password">
+            <button class="button" type="submit">LogIn</button>
+          </form>
+          If you are not registered yet, SignUp <a href="signup.html">here</a>.
+        </div>
+      </div>
     </div>
   </body>
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>

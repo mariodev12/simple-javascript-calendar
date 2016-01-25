@@ -1,6 +1,6 @@
 'use strict';
 var showBrowser = {
-    tvmazeAPi: 'http://api.tvmaze.com/schedule/full',
+    tvmazeAPi: 'http://localhost:8500/events',
     tvMazeApiSearch: 'http://api.tvmaze.com/search/shows?q=',
     listShows: [],
     events: [],
@@ -112,12 +112,15 @@ var showBrowser = {
       var data = JSON.stringify(responseJSON);
       var idStrings = localStorage['favShows'];
       var idShow = JSON.parse(idStrings);
-
+      for (var i = 0; i < responseJSON.length; i++) {
+        console.log(responseJSON[i].title);
+        console.log(responseJSON[i].airdate);
+      }
       for (var i = 0; i < responseJSON.length; i++) {
         for (var j = 0; j < idShow.length; j++) {
-            if (responseJSON[i]._embedded.show.name === idShow[j] ) {
-              this.events.push({title: responseJSON[i]._embedded.show.name,
-                start: responseJSON[i].airdate, episode: responseJSON[i].season+"x"+responseJSON[i].number });
+            if (responseJSON[i].title === idShow[j] ) {
+              this.events.push({title: responseJSON[i].title,
+                start: responseJSON[i].start, episode: responseJSON[i].episode });
             }
           }
       };
@@ -212,6 +215,7 @@ var showBrowser = {
     }
 };
 document.addEventListener('DOMContentLoaded', function () {
+  console.log(showBrowser.events);
   if(!localStorage['favShows'] || localStorage['favShows'].length == 0
   || localStorage['favShows'] === null || localStorage['favShows'] === undefined || localStorage['favShows'] === 'undefined') {
     localStorage.setItem("favShows", "[]");

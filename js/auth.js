@@ -1,8 +1,7 @@
-'use strict';
-
 var Auth = (function () {
-  const APP_ID = '';
-  const JS_KEY = '';
+  'use strict';
+  var APP_ID = 'uNFkqgoDasm43ma51cTh5L5JcuqTAYlctnHkqUJr';
+  var JS_KEY = 'onSewKeMhTffol3MkvlazzXpLQNpJqgLSWtfOcNh';
 
   Parse.initialize(APP_ID,JS_KEY);
 

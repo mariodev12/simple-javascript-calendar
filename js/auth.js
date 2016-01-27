@@ -1,7 +1,7 @@
 var Auth = (function () {
   'use strict';
-  var APP_ID = '';
-  var JS_KEY = '';
+  var APP_ID = 'uNFkqgoDasm43ma51cTh5L5JcuqTAYlctnHkqUJr';
+  var JS_KEY = 'onSewKeMhTffol3MkvlazzXpLQNpJqgLSWtfOcNh';
 
   Parse.initialize(APP_ID,JS_KEY);
 
@@ -30,7 +30,9 @@ var Auth = (function () {
       }
     });
   };
-
+  var validateEmail = function(email){
+    .test()
+  }
   var register = function(event){
     event.preventDefault();
     var user = new Parse.User();

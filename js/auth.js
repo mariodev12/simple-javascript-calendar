@@ -30,9 +30,6 @@ var Auth = (function () {
       }
     });
   };
-  var validateEmail = function(email){
-    .test()
-  }
   var register = function(event){
     event.preventDefault();
     var user = new Parse.User();

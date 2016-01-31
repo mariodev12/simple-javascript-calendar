@@ -16,6 +16,16 @@ var showBrowser = {
         });
       })
     },
+    requestShowsToday: function(){
+      return $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'localhost:8500/events/groupby',
+        success: function(data){
+          console.log(data);
+        }
+      });
+    },
     multisearchShows: function(data){
         var showData = JSON.parse(localStorage.getItem('favShows'));
         var that = this;

@@ -5,6 +5,7 @@ var request = require('request');
 var responseJSON;
 var result = [];
 var parsedDataEvents = [];
+var trakt = [];
 var headers = {
     'Access-Control-Allow-Origin':'*',
     'Access-Control-Allow-Headers': 'X-Requested-With'
@@ -14,6 +15,23 @@ var options = {
   method: 'GET',
   headers: headers
 }
+request({
+  method: 'GET',
+  url: 'https://api-v2launch.trakt.tv/calendars/all/shows/2016-01-01/366',
+  headers: {
+    'Content-Type': 'application/json',
+    'trakt-api-version': '2',
+    'trakt-api-key': ''
+  }}, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var traktResponse = JSON.parse(body);
+      for (var i = 0; i < traktResponse.length; i++) {
+        trakt.push({title: traktResponse[i].show.title, start: traktResponse[i].first_aired.substring(0,10),
+        episode: traktResponse[i].episode.season+"x"+traktResponse[i].episode.number });
+      }
+    }
+});
+
 request(options, function (error, response, body) {
   if (!error && response.statusCode == 200) {
     responseJSON = JSON.parse(body);
@@ -46,7 +64,11 @@ request(options, function (error, response, body) {
 app.get('/', function(req, res){
   res.json(responseJSON);
 });
-
+app.get('/traktApi', function(req, res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.json(trakt);
+});
 app.get('/events', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");

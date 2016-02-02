@@ -1,54 +1,45 @@
 var Auth = (function () {
   'use strict';
-  var APP_ID = 'uNFkqgoDasm43ma51cTh5L5JcuqTAYlctnHkqUJr';
-  var JS_KEY = 'onSewKeMhTffol3MkvlazzXpLQNpJqgLSWtfOcNh';
-
-  Parse.initialize(APP_ID,JS_KEY);
+  var ref = new Firebase("https://tvshow.firebaseio.com/users");
 
   var currentUser = function(){
-    var currentUser = Parse.User.current();
-    if(currentUser){
-      currentUser.fetch().then(function(fetchedUser){
-        var name = fetchedUser.getUsername();
-        $('.logo ul').append('<li onclick="Parse.User.logOut();">'+name+'<li>');
-      });
+    var authData = ref.getAuth();
+    if (authData) {
+      console.log("Authenticated user with uid:", authData.uid);
     }
   };
   var login = function(event){
     event.preventDefault();
-    var form = document.getElementById('form-login');
-    var username = form.username.value;
-    var password = form.password.value;
-    Parse.User.logIn(username,password, {
+    var form = document.getElementById('auth-register');
+
+    var emailRegister = form.email.value;
+    var passwordRegister = form.password.value;
+
+    ref.authWithPassword({
+      email    : emailRegister,
+      password : passwordRegister,
+
       success: function(user){
+        console.log("Logged In user");
         form.submit();
-        window.location.href = "index.html";
-        console.log('Wellcome '+user);
       },
-      error: function(user, error){
-        console.log('not match');
+      error: function(user, eror){
+        console.log("error while logging in");
       }
     });
   };
   var register = function(event){
     event.preventDefault();
-    var user = new Parse.User();
-    var form = document.getElementById('form-register');
+    var form = document.getElementById('auth');
 
-    var nameRegister = form.username.value;
     var emailRegister = form.email.value;
-    var password2Register = form.password2.value;
+    var passwordRegister = form.password.value;
 
-    user.set("username", nameRegister);
-    user.set("email", emailRegister);
-    user.set("password", password2Register);
-
-    user.signUp(null, {
-      success: function(user){
+    ref.createUser({
+      email    : emailRegister,
+      password : passwordRegister, success: function(user){
         console.log("Signed up user");
         form.submit();
-        window.location.href = "index.html";
-        Auth.currentUser();
       },
       error: function(user, eror){
         console.log("error while signing up");

@@ -54,6 +54,49 @@
       <a class="popup-close" data-popup-close="popup-2" href="#">x</a>
     </div>
 </div>
+<main>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#auth">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="#" class="navbar-brand">AngularFire Auth</a>
+      </div>
+      <form onsubmit="Auth.register(event);" id="auth" class="navbar-form navbar-right collapse navbar-collapse">
+        <fieldset>
+          <div class="form-group">
+            <input type="email" class="form-control" placeholder="email" name="email" />
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" placeholder="password" name="password" />
+          </div>
+          <button type="submit" class="btn btn-default">Sign In / Sign Up</button>
+        </fieldset>
+      </form>
+      <form onsubmit="Auth.login(event);" id="auth-register" class="navbar-form navbar-right collapse navbar-collapse">
+        <fieldset>
+          <div class="form-group">
+            <input type="email" class="form-control" placeholder="email" name="email" />
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" placeholder="password" name="password" />
+          </div>
+          <button type="submit" class="btn btn-default">Log In</button>
+        </fieldset>
+      </form>
+    </div>
+  </nav>
+
+  <div class="container" ng-controller="AlertCtrl">
+    <div class="alert alert-{{alert.class}}" ng-model="alert.message" ng-show="alert.message">
+      {{alert.message}}
+    </div>
+  </div>
+</main>
     <div id="calendar"></div>
   </body>
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>
@@ -63,6 +106,7 @@
   <script src="js/bootbox.min.js"></script>
   <script src="http://momentjs.com/downloads/moment.js" charset="utf-8"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.min.js" charset="utf-8"></script>
+  <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
   <!-- PARSE AND AUTH -->
   <script src="js/parse-1.6.14.js" charset="utf-8"></script>
   <script src="js/auth.js" charset="utf-8"></script>

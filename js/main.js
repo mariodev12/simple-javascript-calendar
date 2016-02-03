@@ -24,7 +24,14 @@ var showBrowser = {
       })
     },
     multisearchShows: function(data){
+        var ref = new Firebase("https://tvshow.firebaseio.com/users");
+        var authData = ref.getAuth();
+        var checkValueFollow = new Firebase('https://tvshow.firebaseio.com/users/'+ authData.uid +'/following');
+        checkValueFollow.once('value', function(snapshot){
+          return snapshot.val();
+        });
         var showData = JSON.parse(localStorage.getItem('favShows'));
+        console.log(showData);
         var that = this;
         var searchShows = [];
         for (var i = 0; i < data.length; i++) {
@@ -33,13 +40,22 @@ var showBrowser = {
         $('#suggesstion-box').empty();
         for (var i = 0; i < searchShows.length; i++) {
           $('#suggesstion-box').append('<li/>');
-            if(showData.indexOf(searchShows[i].name) == -1){
+          var nameShow = searchShows[i].name;
+          var noSpacenameShow = nameShow.replace(/['.]/g, "_");
+          var noNoSpacenameShow = noSpacenameShow.split(' ').join('_');
+          console.log(noNoSpacenameShow);
+          var checkValue = ref.once("value", function(snapshot){
+            return snapshot.child(authData.uid+"/following/"+noNoSpacenameShow).exists();
+          });
+          console.log(checkValue);
+            if(checkValue){
               $('#suggesstion-box li:last').append(
                 $('<i />', {
                   class: 'fa fa-heart fav unfollowing',
                   'data-value': searchShows[i].name,
                   click: function(e){
                     console.log($(this).data('value'));
+                    var noSplit = $(this).data('value');
                     var splitJoinValue = $(this).data('value').split(' ').join('_');
                     console.log(splitJoinValue);
                     var ref = new Firebase("https://tvshow.firebaseio.com/users");
@@ -51,8 +67,8 @@ var showBrowser = {
                       return snapshot.child(authData.uid+"/following/"+splitJoinValue).exists();
                     });
                     if(checkValue){
-                      console.log('pushed');
-                      following.set({splitJoinValue: 'value'});
+                      var dataS = new Firebase('https://tvshow.firebaseio.com/users/'+ authData.uid +'/following/'+splitJoinValue);
+                      dataS.set(noSplit);
                       //following.set({ splitJoinValue: $(this).data('value')});
                     } else {
                       console.log('error');

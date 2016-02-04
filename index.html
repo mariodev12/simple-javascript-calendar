@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   </head>
   <body>
+    <span class="arrayData"></span>
     <header>
       <img alt="logo-img" src="img/logo.png"/>
       <div class="logo">
@@ -29,7 +30,10 @@
           <div class="popup-search">
               <div class="frmSearch">
                 <h3>Search your favourite shows to follow</h3>
+                <form id="searchFormBox" onsubmit="showBrowser.requestSearchShows()">
                  <input type="text" id="search-box" placeholder="Shows" />
+                 <input type="submit" value="Submit">
+               </form>
                  <div class="containerData">
                     <ul id="suggesstion-box">
                       <li>1. Search your favourite tv show </li>

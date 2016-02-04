@@ -14,24 +14,21 @@ var showBrowser = {
     },
     requestSearchShows: function(){
       var that = this;
-        $('#search-box').keyup(function(){
-        return $.ajax({
+        $('#searchFormBox').submit(function(event){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        $.ajax({
           dataType: "json",
           type: "GET",
-          url: 'http://api.tvmaze.com/search/shows?q='+ $(this).val(),
-          success: that.multisearchShows.bind(this),
+          url: 'http://api.tvmaze.com/search/shows?q='+ $('#search-box').val(),
+          success: that.multisearchShows.bind(this)
+        }).then(function(){
+          console.log('after ajax');
         });
+        return false;
       })
     },
     multisearchShows: function(data){
-        var ref = new Firebase("https://tvshow.firebaseio.com/users");
-        var authData = ref.getAuth();
-        var checkValueFollow = new Firebase('https://tvshow.firebaseio.com/users/'+ authData.uid +'/following');
-        checkValueFollow.once('value', function(snapshot){
-          return snapshot.val();
-        });
-        var showData = JSON.parse(localStorage.getItem('favShows'));
-        console.log(showData);
         var that = this;
         var searchShows = [];
         for (var i = 0; i < data.length; i++) {
@@ -148,6 +145,17 @@ var showBrowser = {
       var data = JSON.stringify(responseJSON);
       var idStrings = localStorage['favShows'];
       var idShow = JSON.parse(idStrings);
+      var ref = new Firebase("https://tvshow.firebaseio.com/users");
+      var authData = ref.getAuth();
+      var thisarray = [];
+      var checkValueFollow = new Firebase('https://tvshow.firebaseio.com/users/'+ authData.uid +'/following');
+      var votes = [];
+      checkValueFollow.on('value', function(snapshot){
+        snapshot.forEach(function(follow){
+          votes.push(follow.val());
+        })
+      });
+      console.log(votes);
       for (var i = 0; i < responseJSON.length; i++) {
         for (var j = 0; j < idShow.length; j++) {
             if (responseJSON[i].title === idShow[j] ) {

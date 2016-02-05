@@ -5,30 +5,53 @@ var showBrowser = {
     listShows: [],
     events: [],
 
-    checkValue: function(){
-      var ref = new Firebase("https://tvshow.firebaseio.com/users");
-      var authData = ref.getAuth();
-      ref.once("value", function(snapshot){
-        console.log(snapshot.child("9feef388-88c7-4d4f-a3dd-9c6529ee4ada/following/Castle").exists());
-      });
-    },
     requestSearchShows: function(){
       var that = this;
-        $('#searchFormBox').submit(function(event){
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        $.ajax({
+        $('#search-box').keyup(function(){
+        return $.ajax({
           dataType: "json",
           type: "GET",
-          url: 'http://api.tvmaze.com/search/shows?q='+ $('#search-box').val(),
-          success: that.multisearchShows.bind(this)
-        }).then(function(){
-          console.log('after ajax');
+          url: 'http://api.tvmaze.com/search/shows?q='+ $(this).val(),
+          success: that.multisearchShows.bind(this),
         });
-        return false;
       })
     },
+    requestShowsToday: function(){
+      var dataArray = [];
+      function getDateToday(){
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1;
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+            dd='0'+dd
+        }
+        if(mm<10) {
+            mm='0'+mm
+        }
+        return today = yyyy+'-'+mm+'-'+dd;
+      };
+      return $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'http://localhost:8500/events/groupby',
+        success: function parseKeysData(data){
+          for (var x in data) {
+            for (var s in data[x]) {
+              if(getDateToday() === s){
+                for(var i = 0; i < data[x][s].length; i++){
+                  console.log(data[x][s][i].title);
+                  dataArray.push(data[x][s][i].title);
+                }
+              }
+            }
+          }
+          return dataArray;
+        }
+      });
+    }(),
     multisearchShows: function(data){
+        var showData = JSON.parse(localStorage.getItem('favShows'));
         var that = this;
         var searchShows = [];
         for (var i = 0; i < data.length; i++) {
@@ -37,39 +60,17 @@ var showBrowser = {
         $('#suggesstion-box').empty();
         for (var i = 0; i < searchShows.length; i++) {
           $('#suggesstion-box').append('<li/>');
-          var nameShow = searchShows[i].name;
-          var noSpacenameShow = nameShow.replace(/['.]/g, "_");
-          var noNoSpacenameShow = noSpacenameShow.split(' ').join('_');
-          console.log(noNoSpacenameShow);
-          var checkValue = ref.once("value", function(snapshot){
-            return snapshot.child(authData.uid+"/following/"+noNoSpacenameShow).exists();
-          });
-          console.log(checkValue);
-            if(checkValue){
+            if(showData.indexOf(searchShows[i].name) == -1){
               $('#suggesstion-box li:last').append(
                 $('<i />', {
                   class: 'fa fa-heart fav unfollowing',
                   'data-value': searchShows[i].name,
                   click: function(e){
-                    console.log($(this).data('value'));
-                    var noSplit = $(this).data('value');
-                    var splitJoinValue = $(this).data('value').split(' ').join('_');
-                    console.log(splitJoinValue);
-                    var ref = new Firebase("https://tvshow.firebaseio.com/users");
-                    var authData = ref.getAuth();
-                    console.log(authData.uid);
-                    var following = new Firebase('https://tvshow.firebaseio.com/users/'+ authData.uid +'/following');
-                    //var index = $.inArray($(this).data('value'), showData);
-                    var checkValue = ref.once("value", function(snapshot){
-                      return snapshot.child(authData.uid+"/following/"+splitJoinValue).exists();
-                    });
-                    if(checkValue){
-                      var dataS = new Firebase('https://tvshow.firebaseio.com/users/'+ authData.uid +'/following/'+splitJoinValue);
-                      dataS.set(noSplit);
-                      //following.set({ splitJoinValue: $(this).data('value')});
-                    } else {
-                      console.log('error');
+                    var index = $.inArray($(this).data('value'), showData);
+                    if(index == -1) {
+                      showData.push($(this).data('value'));
                     }
+                    localStorage['favShows'] = JSON.stringify(showData);
                     $(this).removeClass('unfollowing');
                     $(this).addClass('following');
                   }
@@ -145,17 +146,6 @@ var showBrowser = {
       var data = JSON.stringify(responseJSON);
       var idStrings = localStorage['favShows'];
       var idShow = JSON.parse(idStrings);
-      var ref = new Firebase("https://tvshow.firebaseio.com/users");
-      var authData = ref.getAuth();
-      var thisarray = [];
-      var checkValueFollow = new Firebase('https://tvshow.firebaseio.com/users/'+ authData.uid +'/following');
-      var votes = [];
-      checkValueFollow.on('value', function(snapshot){
-        snapshot.forEach(function(follow){
-          votes.push(follow.val());
-        })
-      });
-      console.log(votes);
       for (var i = 0; i < responseJSON.length; i++) {
         for (var j = 0; j < idShow.length; j++) {
             if (responseJSON[i].title === idShow[j] ) {
@@ -193,7 +183,6 @@ var showBrowser = {
             center: 'title',
             right : 'next'
         },
-        firstDay:1,
         events: this.events,
         lazyFetching: true,
         eventRender: function(event, element) {

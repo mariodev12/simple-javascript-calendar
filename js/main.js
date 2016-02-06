@@ -155,27 +155,6 @@ var showBrowser = {
           }
       };
     },
-    populateSelectNetworks: function(){
-      var _data;
-      var _arr = [];
-      var _cleanArr = [];
-      var _cleanWithoutSpace = [];
-
-      for (var i = 0; i < this.listShows.length; i++) {
-        _arr.push(this.listShows[i].network);
-      }
-      $.each(_arr, function(i,val){
-        if($.inArray(val, _cleanArr) === -1) _cleanArr.push(val);
-      });
-      for (var i = 0; i < _cleanArr.length; i++) {
-        _cleanWithoutSpace.push(_cleanArr[i].split(' ').join('-'));
-      }
-      for (var i = 0; i < _cleanArr.length; i++) {
-        for (var i = 0; i < _cleanWithoutSpace.length; i++) {
-            $('#networkShows').append('<option value="'+_cleanWithoutSpace[i]+'">'+_cleanArr[i]+'</option>');
-        }
-      }
-    },
     fullCalendarTv: function(){
       $('#calendar').fullCalendar({
         header: {

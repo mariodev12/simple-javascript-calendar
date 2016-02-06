@@ -21,7 +21,7 @@ request({
   headers: {
     'Content-Type': 'application/json',
     'trakt-api-version': '2',
-    'trakt-api-key': 'ae12cefd1d77b153f248bc9b20d7d0cdfbf21d2754fa7f25bfc23c53a41851e5'
+    'trakt-api-key': ''
   }}, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       var traktResponse = JSON.parse(body);

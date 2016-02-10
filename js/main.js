@@ -1,6 +1,6 @@
 'use strict';
 var showBrowser = {
-    tvmazeAPi: 'http://localhost:8500/traktApi',
+    tvmazeAPi: 'http://46.101.157.91:8500/traktApi',//'http://localhost:8500/traktApi',
     tvMazeApiSearch: 'http://api.tvmaze.com/search/shows?q=',
     listShows: [],
     events: [],
@@ -16,6 +16,7 @@ var showBrowser = {
         });
       })
     },
+    /*
     requestShowsToday: function(){
       var dataArray = [];
       function getDateToday(){
@@ -34,7 +35,7 @@ var showBrowser = {
       return $.ajax({
         dataType: 'json',
         type: 'GET',
-        url: 'http://localhost:8500/events/groupby',
+        url: 'http://46.101.157.91:8500/events/groupby',
         success: function parseKeysData(data){
           for (var x in data) {
             for (var s in data[x]) {
@@ -50,6 +51,7 @@ var showBrowser = {
         }
       });
     }(),
+    */
     multisearchShows: function(data){
         var showData = JSON.parse(localStorage.getItem('favShows'));
         var that = this;

@@ -266,3 +266,17 @@ ul#tvshow-app-chrome-extension__list li {
       background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C */
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
     }
+    .wrapper {
+	     margin-top: 80px;
+       margin-bottom: 80px;
+    }
+    .form-signin {
+      max-width: 380px;
+      padding: 15px 35px 45px;
+      margin: 0 auto;
+      background-color: #fff;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    .form-signin button {
+      margin-top: 20px;
+    }

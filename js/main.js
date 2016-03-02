@@ -1,10 +1,36 @@
 'use strict';
 var showBrowser = {
-    tvmazeAPi: 'http://46.101.157.91:8500/traktApi',//'http://localhost:8500/traktApi',
+    tvmazeAPi: 'http://localhost:8500/traktApi',//'http://46.101.157.91:8500/traktApi',
     tvMazeApiSearch: 'http://api.tvmaze.com/search/shows?q=',
     listShows: [],
     events: [],
-
+    dataHiatusShows: [],
+    unique: function(list) {
+        var result = [];
+        $.each(list, function(i, e) {
+            if ($.inArray(e, result) == -1) result.push(e);
+        });
+        return result;
+    },
+    getDataShows: function(){
+      return $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: '/js/data.json',
+        success: this.getTvShowHiatus.bind(this)
+      });
+    },
+    getTvShowHiatus: function(data){
+        if(data){
+          for (var i = 0; i < data.length; i++) {
+            if(data[i].country === "US" && data[i]['end date'] === "___ ____"){
+              //console.log(data[i].title);
+              this.dataHiatusShows.push(data[i].title);
+            }
+          }
+        }
+        //console.log(this.dataHiatusShows);
+    },
     requestSearchShows: function(){
       var that = this;
         $('#search-box').keyup(function(){
@@ -16,42 +42,6 @@ var showBrowser = {
         });
       })
     },
-    /*
-    requestShowsToday: function(){
-      var dataArray = [];
-      function getDateToday(){
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1;
-        var yyyy = today.getFullYear();
-        if(dd<10) {
-            dd='0'+dd
-        }
-        if(mm<10) {
-            mm='0'+mm
-        }
-        return today = yyyy+'-'+mm+'-'+dd;
-      };
-      return $.ajax({
-        dataType: 'json',
-        type: 'GET',
-        url: 'http://46.101.157.91:8500/events/groupby',
-        success: function parseKeysData(data){
-          for (var x in data) {
-            for (var s in data[x]) {
-              if(getDateToday() === s){
-                for(var i = 0; i < data[x][s].length; i++){
-                  console.log(data[x][s][i].title);
-                  dataArray.push(data[x][s][i].title);
-                }
-              }
-            }
-          }
-          return dataArray;
-        }
-      });
-    }(),
-    */
     multisearchShows: function(data){
         var showData = JSON.parse(localStorage.getItem('favShows'));
         var that = this;
@@ -147,15 +137,19 @@ var showBrowser = {
     getTvShowFromMaze: function(responseJSON){
       var data = JSON.stringify(responseJSON);
       var idStrings = localStorage['favShows'];
+      var uniqueShows = this.unique(this.dataHiatusShows);
+      console.log(uniqueShows);
       var idShow = JSON.parse(idStrings);
       for (var i = 0; i < responseJSON.length; i++) {
-        for (var j = 0; j < idShow.length; j++) {
-            if (responseJSON[i].title === idShow[j] ) {
+        for (var j = 0; j < uniqueShows.length; j++) {
+            if (responseJSON[i].title === uniqueShows[j] ) {
+              //console.log(responseJSON[i].title);
               this.events.push({title: responseJSON[i].title,
                 start: responseJSON[i].start, episode: responseJSON[i].episode });
             }
           }
       };
+      //console.log(this.events);
     },
     fullCalendarTv: function(){
       $('#calendar').fullCalendar({
@@ -216,6 +210,12 @@ var showBrowser = {
       this.fullCalendarTv();
     },
     init: function(){
+      if(this.getDataShows){
+        console.log(this.dataHiatusShows);
+      }
+      $.when(this.getDataShows()).done(function(a1,a2){
+
+      });
       $.when(this.requestShows()).done(function(a1,a2){
         showBrowser.fillTab();
       });
@@ -238,3 +238,6 @@ document.addEventListener('DOMContentLoaded', function () {
     showBrowser.init();
   }
 });
+if(showBrowser.getDataShows()){
+  console.log(showBrowser.dataHiatusShows);
+}

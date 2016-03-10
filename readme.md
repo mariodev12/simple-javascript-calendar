@@ -5,3 +5,4 @@ Favorite TV Show made with Javascript, jQuery and NodeJS.
 
 ToDO: 
   - Register/Login
+  - CSS

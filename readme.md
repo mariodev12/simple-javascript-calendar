@@ -7,3 +7,4 @@ ToDO:
   - Register/Login
   - CSS
   - Next and last week.
+  - Electron App

@@ -8,3 +8,4 @@ ToDO:
   - CSS
   - Next and last week.
   - Electron App
+  - Responsive

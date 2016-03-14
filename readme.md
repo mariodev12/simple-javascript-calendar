@@ -9,3 +9,4 @@ ToDO:
   - Next and last week.
   - Electron App
   - Responsive
+  - ES6

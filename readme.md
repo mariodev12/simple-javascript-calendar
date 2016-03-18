@@ -10,4 +10,3 @@ ToDO:
   - Responsive
   - ES6
   - NodeJS
-  - Parse

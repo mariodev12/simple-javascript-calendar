@@ -1,6 +1,6 @@
 'use strict';
 var showBrowser = {
-  api: 'http://localhost:8500,
+  api: 'http://localhost:8500',
   apisearch: '',
   listShows: [],
   events: [],

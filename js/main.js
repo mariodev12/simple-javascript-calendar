@@ -1,7 +1,7 @@
 'use strict';
 var showBrowser = {
-  tvmazeAPi: 'http://localhost:8500/traktApi', //'http://46.101.157.91:8500/traktApi',
-  tvMazeApiSearch: 'http://api.tvmaze.com/search/shows?q=',
+  api: 'http://localhost:8500,
+  apisearch: '',
   listShows: [],
   events: [],
   dataHiatusShows: [],
@@ -35,7 +35,7 @@ var showBrowser = {
       return $.ajax({
         dataType: "json",
         type: "GET",
-        url: 'http://api.tvmaze.com/search/shows?q=' + $(this).val(),
+        url: '' + $(this).val(),
         success: that.multisearchShows.bind(this),
       });
     })
@@ -121,8 +121,8 @@ var showBrowser = {
     return $.ajax({
       dataType: "json",
       type: "GET",
-      url: this.tvmazeAPi,
-      success: this.getTvShowFromMaze.bind(this),
+      url: ,
+      success: this.getTvShow.bind(this),
       error: this.loadErrors,
       beforeSend: function() {
         $('#loading').show();

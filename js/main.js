@@ -121,7 +121,7 @@ var showBrowser = {
     return $.ajax({
       dataType: "json",
       type: "GET",
-      url: ,
+      url: '',
       success: this.getTvShow.bind(this),
       error: this.loadErrors,
       beforeSend: function() {

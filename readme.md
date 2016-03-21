@@ -10,3 +10,4 @@ ToDO:
   - Responsive
   - ES6
   - NodeJS - done
+  - AngularJS

@@ -7,7 +7,6 @@ ToDO:
   - Register/Login
   - CSS
   - Electron App
-  - Responsive
   - ES6
   - NodeJS - done
   - AngularJS
